@@ -1,0 +1,90 @@
+
+
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb float-xl-right">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Roles</li>
+    </ol>
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header">Roles <small></small></h1>
+    <!-- end page-header -->
+    
+    <!-- Roles Table start-->
+    <div class="row">
+      <div class="col-12">
+        <panel>
+          <ng-container header>
+            <h4 class="panel-title">Roles</h4>
+          </ng-container>
+          <div class="row form-group">
+              <div class="col-md">
+                      <input class="form-control" [placeholder]="l('Filter')" [(ngModel)]="keyword" name="keyword">
+              </div>
+              
+              <div class="col-md-auto text-right p-r-25">
+                    <button  class="btn btn-sm btn-success" (click)="getDataPage(1)"><i class="fas fa-lg fa-fw m-r-10 fa-search"></i>{{ 'Search' | localize }}</button>
+              </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table table-striped table-hover m-b-0">
+              <thead>
+                <tr>
+                    <th>{{ "RoleName" | localize }}</th>
+                    <th>{{ "DisplayName" | localize }}</th>
+                    <th width="1%">{{ "Actions" | localize }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                let role of (roles
+                    | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: pageSize,
+                        currentPage: pageNumber,
+                        totalItems: totalItems
+                        })
+                  ">
+                        <td>{{ role.name }}</td>
+                        <td>{{ role.displayName }}</td>
+                        <td class="with-btn" nowrap>
+                            <button class="btn btn-default" [matMenuTriggerFor]="actionsMenu">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-list"></i>
+                            </button>
+                            <mat-menu #actionsMenu="matMenu">
+                                <button mat-menu-item (click)="editRole(role)">
+                                    <i class="fas fa-pencil-alt fa-fw"></i>
+                                    <span>{{ "Edit" | localize }}</span>
+                                </button>
+                                <button mat-menu-item (click)="delete(role)">
+                                    <i class="fas fa-lg fa-fw m-r-10 fa-trash-alt"></i>
+                                    <span>{{ "Delete" | localize }}</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="abp-pagination-controls-wrapper"
+            *ngIf="totalItems > pageSize"
+            >
+                <abp-pagination-controls
+                    (pageChange)="getDataPage($event)"
+                    id="server"
+                >
+                </abp-pagination-controls>
+            </div>
+            <div class="col-md-auto text-right p-r-15">
+                <button  class="btn btn-green btn-icon btn-circle btn-lg" style="margin-top: 20px;" (click)="createRole()"><span class="fa fa-plus"></span></button>
+            </div>
+        </panel>
+      </div>
+    </div>
+    <!-- Role Table end -->
+    
+    
